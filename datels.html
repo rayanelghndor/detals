@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <title>Details</title>
+</head>
+<body>
+
+      
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">Rayan Ecommarce</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="users.html">Users</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="Cart.html">my Cart</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login.html">Logout</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+
+    <!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تفاصيل المنتج</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+
+  <div class="container mt-5">
+    <h2>📦 تفاصيل المنتج</h2>
+    <div id="products-details"></div>
+    <a href="add to cart.html" class="btn btn-warning mt-3">
+      🛒 السلة <span id="cart-count" class="badge bg-danger">0</span>
+    </a>
+  </div>
+
+  <script src="js/add to cart.js"></script>
+  <script>
+    let productsContainer = document.getElementById("products-details");
+    let cartCount = document.getElementById("cart-count");
+    let productId = localStorage.getItem('clickproduct');
+
+    let getProductsDetails = async function (productId) {
+      try {
+        if (!productId) {
+          throw new Error("لم يتم العثور على معرف المنتج في localStorage");
+        }
+
+        let res = await fetch(`https://fakestoreapi.com/products/${productId}`);
+        if (!res.ok) {
+          throw new Error("فشل جلب بيانات المنتج");
+        }
+
+        let productDetails = await res.json();
+
+        let temp = `
+          <div class="card" style="width: 18rem;">
+            <img src="${productDetails.image}" class="card-img-top" alt="${productDetails.title}">
+            <div class="card-body">
+              <h5 class="card-title">${productDetails.title}</h5>
+              <span class="badge text-bg-success">$${productDetails.price}</span>
+              <p class="card-text">${productDetails.description}</p>
+              <button class="btn btn-success" onclick="addToCart(${productDetails.id}, '${productDetails.title}', ${productDetails.price}, '${productDetails.image}')">
+                🛒 إضافة إلى السلة
+              </button>
+            </div>
+          </div>
+        `;
+
+        productsContainer.innerHTML = temp;
+      } catch (error) {
+        console.error("حدث خطأ أثناء جلب البيانات:", error);
+        productsContainer.innerHTML = `<p style="color: red;">${error.message}</p>`;
+      }
+    };
+
+    getProductsDetails(productId);
+  </script>
+</body>
+</html>
+
+
+
+
+    <section class="my-5  container">
+        <h1 class="text-center text-danger my-5">Product Datels</h1>
+        
+            <div class="row" id="products-detels">
+              
+            </div>
+        
+    </section>
+
+    <script src="js/datels.js"></script>
+</body>
+</html>
